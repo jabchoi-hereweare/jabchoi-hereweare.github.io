@@ -1,0 +1,294 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: 'Noto Sans KR', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Theme Palette - Professional Tax/Accountant Financial Theme */
+  --bg-dark: #0f172a;
+  --bg-card: #1e293b;
+  --bg-card-hover: #334155;
+  --bg-surface: #0b1120;
+  
+  --primary-accountant: #3b82f6; /* 회계사의 눈 - Soft Cobalt Blue */
+  --primary-accountant-light: #60a5fa;
+  --primary-tax: #ef4444; /* 세무사의 눈 - Warm Crimson Red */
+  --primary-tax-light: #f87171;
+  
+  --accent-gold: #f59e0b;
+  --accent-green: #10b981;
+  --accent-green-glow: rgba(16, 185, 129, 0.25);
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-highlight: rgba(59, 130, 246, 0.4);
+  
+  /* Standard Korean Tax Invoice Colors */
+  --invoice-red: #d32f2f;
+  --invoice-blue: #1976d2;
+  --invoice-bg: #ffffff;
+  --invoice-text: #1e293b;
+  --invoice-border: #cbd5e1;
+  --invoice-highlight-bg: #fef2f2;
+  --invoice-highlight-border: #f87171;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Utility Animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.7);
+  }
+}
+
+@keyframes floatAnim {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+.animate-float {
+  animation: floatAnim 4s ease-in-out infinite;
+}
+
+/* Glassmorphism Card */
+.glass-panel {
+  background: rgba(30, 41, 59, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+}
+
+.glass-panel-interactive {
+  background: rgba(30, 41, 59, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel-interactive:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* Tax Invoice Paper Styling */
+.tax-invoice-paper {
+  background-color: var(--invoice-bg);
+  color: var(--invoice-text);
+  border: 2px solid var(--invoice-red);
+  border-radius: 8px;
+  font-size: 13px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.tax-invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tax-invoice-table th,
+.tax-invoice-table td {
+  border: 1px solid var(--invoice-red);
+  padding: 6px 8px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.tax-invoice-table th {
+  background-color: #fef2f2;
+  color: var(--invoice-red);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/* Input Fields inside Tax Invoice */
+.invoice-input {
+  width: 100%;
+  border: 1px dashed transparent;
+  background: transparent;
+  padding: 4px 6px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: #0f172a;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.invoice-input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.invoice-input-required {
+  background-color: #fff7ed;
+  border: 1px dashed #fdba74;
+}
+
+.invoice-input-required.valid {
+  background-color: #f0fdf4;
+  border: 1px solid #4ade80;
+  color: #166534;
+  font-weight: 600;
+}
+
+.invoice-input-optional {
+  background-color: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  color: #64748b;
+}
+
+/* Custom Checkbox Lamp */
+.checklist-lamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.checklist-lamp.off {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+}
+
+.checklist-lamp.on {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
+}
+
+/* Eye Mode Badges */
+.badge-accountant {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.badge-tax {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Code Snippet / Journal Entry Box */
+.journal-box {
+  font-family: var(--font-mono);
+  background: #090d16;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  color: #e2e8f0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Responsive Container */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .tax-invoice-paper {
+    box-shadow: none;
+    border-color: #000;
+  }
+}
