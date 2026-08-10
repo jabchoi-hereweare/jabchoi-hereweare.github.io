@@ -12,6 +12,16 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ activePage, setActivePage, onOpenGithubModal }) => {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-800 bg-slate-950/90 backdrop-blur-xl shadow-xl">
+      {/* Sample/Simulation Notice Banner */}
+      <div className="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 text-amber-950 px-4 py-1.5 text-xs font-bold flex items-center justify-center gap-2 shadow-inner">
+        <span className="bg-amber-950 text-amber-300 text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider font-extrabold">
+          샘플 / 시뮬레이션
+        </span>
+        <span className="text-amber-950 font-extrabold">
+          ⚠️ 본 화면은 ERP 세무 실습 및 테스트용 샘플 시스템입니다. 실제 국세청 신고 및 법적 세금계산서가 발행되지 않습니다.
+        </span>
+      </div>
+
       <div className="container py-3 flex flex-wrap items-center justify-between gap-4">
         {/* Brand Logo & Title */}
         <div className="flex items-center gap-3">
