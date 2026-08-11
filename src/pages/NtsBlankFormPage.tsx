@@ -223,23 +223,23 @@ export const NtsBlankFormPage: React.FC = () => {
   };
 
   return (
-    <div className="py-8 container max-w-6xl mx-auto space-y-6 animate-fadeIn">
+    <div className="p-6 space-y-6 font-sans text-slate-800 bg-[#F4F5F8] min-h-full">
       {/* Top Banner & Mode Toggle */}
-      <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-white border border-slate-200 p-5 rounded-md shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="px-2.5 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-bold font-mono">
+            <span className="px-2.5 py-0.5 rounded bg-red-50 text-red-700 border border-red-200 text-xs font-bold font-mono">
               국세청 표준 적색 양식
             </span>
-            <span className="px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold">
-              1페이지: 빈 칸 + 세무 힌트
+            <span className="px-2.5 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-200 text-xs font-bold">
+              4대 필수 항목 실시간 검증
             </span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-black text-white tracking-tight">
-            국세청 세금계산서 작성 <span className="text-red-400 font-extrabold">(빈 칸 & 힌트 학습 모드)</span>
+          <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+            세금계산서 작성 <span className="text-red-600 font-extrabold">(국세청 표준 적색 양식)</span>
           </h1>
-          <p className="text-slate-400 text-xs mt-1">
-            직접 빈 칸을 입력하며 세금계산서의 필수 4가지 요건 및 세무 작성 가이드를 실습하세요.
+          <p className="text-slate-500 text-xs mt-1">
+            공급자 및 공급받는자 정보를 입력하면 세액이 자동 계산되며 필수 기재사항 4가지 가산세 리스크를 검증합니다.
           </p>
         </div>
 
@@ -247,7 +247,7 @@ export const NtsBlankFormPage: React.FC = () => {
         <div className="flex flex-wrap items-center gap-2 shrink-0">
           <button
             onClick={() => setShowHints(!showHints)}
-            className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all border ${
+            className={`px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition-all border ${
               showHints
                 ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 shadow-lg shadow-amber-500/10'
                 : 'bg-slate-800 text-slate-400 border-slate-700 hover:text-white'
