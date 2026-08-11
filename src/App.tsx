@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { HiworksHeader, HiworksModuleType } from './components/HiworksHeader';
-import { HiworksSidebar, TabId } from './components/HiworksSidebar';
-import { HiworksWorkspaceTabs, TabItem } from './components/HiworksWorkspaceTabs';
+import { HoemusaHeader } from './components/HoemusaHeader';
+import { HoemusaSidebar, TabId } from './components/HoemusaSidebar';
+import { HoemusaWorkspaceTabs, TabItem } from './components/HoemusaWorkspaceTabs';
 import { NtsBlankFormPage } from './pages/NtsBlankFormPage';
+import { TransactionStatementFormView } from './pages/TransactionStatementFormView';
+import { AmendedTaxInvoiceFormView } from './pages/AmendedTaxInvoiceFormView';
 import { UnissuedDocumentsView } from './pages/UnissuedDocumentsView';
+import { NtsTransmittedView } from './pages/NtsTransmittedView';
+import { StatementInboxView } from './pages/StatementInboxView';
 import { BoltaApiImplementationPage } from './pages/BoltaApiImplementationPage';
 import { DatabaseBoltaIssuePage } from './pages/DatabaseBoltaIssuePage';
 import { CustomerManagementView } from './pages/CustomerManagementView';
@@ -13,31 +17,32 @@ import { GithubHostingModal } from './components/GithubHostingModal';
 import { ArrowUp, Github } from 'lucide-react';
 
 export const App: React.FC = () => {
-  // Global module state (인사근무 / 경리회계 / 세금계산서 / 전자계약)
-  const [activeModule, setActiveModule] = useState<HiworksModuleType>('tax');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
   const [isGithubModalOpen, setIsGithubModalOpen] = useState<boolean>(false);
 
-  // Workspace Tabs State
+  // Default Open Tabs (Focusing on Tax Invoice ERP Workflows)
   const [openTabs, setOpenTabs] = useState<TabItem[]>([
-    { id: 'nts_form', title: '세금계산서 작성' },
-    { id: 'unissued_docs', title: '발급 전 문서' },
+    { id: 'nts_form', title: '세금계산서 작성 (적색)' },
+    { id: 'unissued_docs', title: '발급 전 문서함' },
+    { id: 'bolta_api', title: '볼타 API 연동' },
     { id: 'customer_mgt', title: '거래처 관리' },
     { id: 'business_info', title: '사업자 정보' },
-    { id: 'user_permissions', title: '사용 권한 관리' },
   ]);
   const [activeTabId, setActiveTabId] = useState<TabId>('nts_form');
 
-  // Tab Title Dictionary
+  // Comprehensive Tab Title Dictionary for all 11 Views
   const tabTitles: Record<TabId, string> = {
-    nts_form: '세금계산서 작성',
-    unissued_docs: '발급 전 문서',
+    nts_form: '세금계산서 작성 (적색)',
+    statement_form: '거래명세서 작성 (청색)',
+    amended_form: '수정 세금계산서 작성',
+    db_issue: '대량등록 (DB 발행)',
+    unissued_docs: '발급 전 문서함',
+    nts_transmitted: '국세청 전송문서함',
+    statement_inbox: '거래명세서 문서함',
     bolta_api: '볼타 API 연동',
-    db_issue: 'DB 연동 발행',
     customer_mgt: '거래처 관리',
     business_info: '사업자 정보',
     user_permissions: '사용 권한 관리',
-    expense_mgt: '경비지출 관리',
   };
 
   // Open a new tab or focus existing
@@ -65,25 +70,17 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#F4F5F8] text-slate-800 flex flex-col font-sans selection:bg-purple-500 selection:text-white">
-      {/* Top Header Bar (Hiworks Corporate Header) */}
-      <HiworksHeader
-        activeModule={activeModule}
-        setActiveModule={(mod) => {
-          setActiveModule(mod);
-          if (mod === 'accounting') {
-            handleOpenTab('business_info');
-          } else if (mod === 'tax') {
-            handleOpenTab('nts_form');
-          }
-        }}
+      {/* Top Header Bar */}
+      <HoemusaHeader
+        activeTabId={activeTabId}
+        onOpenTab={handleOpenTab}
         onOpenGithubModal={() => setIsGithubModalOpen(true)}
       />
 
-      {/* Main Workspace Body: Left Sidebar + Main Content Area */}
+      {/* Main Workspace Body */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Navigation Bar (Hiworks LNB) */}
-        <HiworksSidebar
-          activeModule={activeModule}
+        {/* Left Navigation Bar */}
+        <HoemusaSidebar
           activeTabId={activeTabId}
           openTab={handleOpenTab}
           collapsed={isSidebarCollapsed}
@@ -93,21 +90,25 @@ export const App: React.FC = () => {
         {/* Main Content Area Container */}
         <div className="flex-1 flex flex-col min-w-0 bg-[#F4F5F8]">
           {/* Top Sub-Tabs Workspace Bar */}
-          <HiworksWorkspaceTabs
+          <HoemusaWorkspaceTabs
             openTabs={openTabs}
             activeTabId={activeTabId}
             setActiveTabId={setActiveTabId}
             closeTab={handleCloseTab}
           />
 
-          {/* Active View Render Workspace */}
+          {/* Active View Render Workspace (11 Distinct Active Views) */}
           <main className="flex-1 overflow-y-auto">
             {activeTabId === 'nts_form' && <NtsBlankFormPage />}
+            {activeTabId === 'statement_form' && <TransactionStatementFormView />}
+            {activeTabId === 'amended_form' && <AmendedTaxInvoiceFormView />}
+            {activeTabId === 'db_issue' && <DatabaseBoltaIssuePage />}
             {activeTabId === 'unissued_docs' && (
               <UnissuedDocumentsView onOpenTab={handleOpenTab} />
             )}
+            {activeTabId === 'nts_transmitted' && <NtsTransmittedView />}
+            {activeTabId === 'statement_inbox' && <StatementInboxView />}
             {activeTabId === 'bolta_api' && <BoltaApiImplementationPage />}
-            {activeTabId === 'db_issue' && <DatabaseBoltaIssuePage />}
             {activeTabId === 'customer_mgt' && <CustomerManagementView />}
             {activeTabId === 'business_info' && <BusinessInfoView />}
             {activeTabId === 'user_permissions' && <UserPermissionsView />}
