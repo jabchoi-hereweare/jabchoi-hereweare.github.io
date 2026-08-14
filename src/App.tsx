@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { HoemusaHeader } from './components/HoemusaHeader';
 import { HoemusaSidebar, TabId } from './components/HoemusaSidebar';
 import { HoemusaWorkspaceTabs, TabItem } from './components/HoemusaWorkspaceTabs';
-import { NtsBlankFormPage } from './pages/NtsBlankFormPage';
+import { ErpTaxInvoiceModule } from './components/ErpTaxInvoiceModule';
 import { TransactionStatementFormView } from './pages/TransactionStatementFormView';
 import { AmendedTaxInvoiceFormView } from './pages/AmendedTaxInvoiceFormView';
 import { UnissuedDocumentsView } from './pages/UnissuedDocumentsView';
@@ -20,27 +20,26 @@ export const App: React.FC = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
   const [isGithubModalOpen, setIsGithubModalOpen] = useState<boolean>(false);
 
-  // Default Open Tabs (Focusing on Tax Invoice ERP Workflows)
+  // Default Open Tabs (Centered around Tax Invoice Core with connected ERP Modules)
   const [openTabs, setOpenTabs] = useState<TabItem[]>([
-    { id: 'nts_form', title: '세금계산서 작성 (적색)' },
-    { id: 'unissued_docs', title: '발급 전 문서함' },
+    { id: 'nts_form', title: '전자세금계산서 발행 (적색)' },
+    { id: 'unissued_docs', title: '발급 전 전표/문서함' },
+    { id: 'customer_mgt', title: '거래처 마스터' },
     { id: 'bolta_api', title: '볼타 API 연동' },
-    { id: 'customer_mgt', title: '거래처 관리' },
-    { id: 'business_info', title: '사업자 정보' },
   ]);
   const [activeTabId, setActiveTabId] = useState<TabId>('nts_form');
 
-  // Comprehensive Tab Title Dictionary for all 11 Views
+  // Comprehensive Tab Title Dictionary for all ERP Views
   const tabTitles: Record<TabId, string> = {
-    nts_form: '세금계산서 작성 (적색)',
+    nts_form: '전자세금계산서 발행 (적색)',
     statement_form: '거래명세서 작성 (청색)',
     amended_form: '수정 세금계산서 작성',
     db_issue: '대량등록 (DB 발행)',
-    unissued_docs: '발급 전 문서함',
+    unissued_docs: '발급 전 전표/문서함',
     nts_transmitted: '국세청 전송문서함',
     statement_inbox: '거래명세서 문서함',
     bolta_api: '볼타 API 연동',
-    customer_mgt: '거래처 관리',
+    customer_mgt: '거래처 마스터',
     business_info: '사업자 정보',
     user_permissions: '사용 권한 관리',
   };
@@ -97,9 +96,11 @@ export const App: React.FC = () => {
             closeTab={handleCloseTab}
           />
 
-          {/* Active View Render Workspace (11 Distinct Active Views) */}
+          {/* Active View Render Workspace */}
           <main className="flex-1 overflow-y-auto">
-            {activeTabId === 'nts_form' && <NtsBlankFormPage />}
+            {activeTabId === 'nts_form' && (
+              <ErpTaxInvoiceModule onNavigateTab={(id) => handleOpenTab(id as TabId)} />
+            )}
             {activeTabId === 'statement_form' && <TransactionStatementFormView />}
             {activeTabId === 'amended_form' && <AmendedTaxInvoiceFormView />}
             {activeTabId === 'db_issue' && <DatabaseBoltaIssuePage />}
@@ -143,3 +144,5 @@ export const App: React.FC = () => {
     </div>
   );
 };
+
+export default App;
